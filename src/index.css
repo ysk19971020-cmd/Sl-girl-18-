@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark theme inspired by promotional image */
+    --background: 222 47% 11%;  /* Deep dark blue-black */
+    --foreground: 210 40% 98%;  /* Almost white */
+    --card: 222 47% 14%;  /* Slightly lighter dark blue */
+    --card-foreground: 210 40% 98%;
+    --primary: 320 65% 52%;  /* Pink */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 60% 60%;  /* Purple */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 222 47% 18%;  /* Muted dark blue */
+    --muted-foreground: 215 16% 65%;
+    --accent: 280 55% 65%;  /* Light purple */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 47% 20%;  /* Dark border */
+    --input: 222 47% 16%;
+    --ring: 320 65% 52%;
+    --radius: 0.75rem;
+    
+    /* Custom gradient colors */
+    --gradient-start: #ec4899;
+    --gradient-middle: #a855f7;
+    --gradient-end: #3b82f6;
+    --card-gradient-start: rgba(236, 72, 153, 0.08);
+    --card-gradient-end: rgba(168, 85, 247, 0.08);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* Promotional image inspired background */
+    background: linear-gradient(135deg, 
+      #0a0e1a 0%, 
+      #1a1f35 25%,
+      #0f1629 50%,
+      #1a2540 75%,
+      #0d1220 100%);
+    background-attachment: fixed;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(ellipse at 10% 20%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.02"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* Ensure content is above background layers */
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  .gradient-header {
+    @apply bg-gradient-primary;
+  }
+  
+  .card-shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 
+                0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card-3d {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+    background: rgba(26, 31, 53, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(236, 72, 153, 0.15);
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.5),
+      0 5px 15px rgba(236, 72, 153, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .card-3d:hover {
+    transform: perspective(1000px) translateY(-8px) scale(1.02);
+    background: rgba(26, 31, 53, 0.8);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.6),
+      0 10px 30px rgba(236, 72, 153, 0.3),
+      0 0 80px rgba(168, 85, 247, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .verified-badge {
+    @apply bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-full inline-flex items-center gap-1;
+    box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+  }
+  
+  .featured-card {
+    @apply border-2 border-primary bg-gradient-card;
+    box-shadow: 
+      0 0 0 1px rgba(236, 72, 153, 0.1),
+      0 8px 32px rgba(236, 72, 153, 0.2),
+      0 4px 16px rgba(168, 85, 247, 0.15);
+    animation: subtle-pulse 3s ease-in-out infinite;
+  }
+  
+  .price-button {
+    @apply bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-2 px-4 rounded-lg;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  }
+  
+  .price-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+  }
+  
+  .category-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted transition-colors cursor-pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .category-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* 3D Login Background */
+  .login-bg-3d {
+    position: relative;
+    background: linear-gradient(135deg, 
+      rgba(236, 72, 153, 0.95) 0%, 
+      rgba(168, 85, 247, 0.95) 50%, 
+      rgba(59, 130, 246, 0.95) 100%);
+    overflow: hidden;
+  }
+  
+  .login-bg-3d::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    animation: float-gradient 20s ease-in-out infinite;
+  }
+  
+  .login-bg-3d::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1920&h=1080&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+  }
+  
+  /* 3D Form Container - Dark glass morphism */
+  .form-container-3d {
+    background: rgba(26, 31, 53, 0.85);
+    backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(236, 72, 153, 0.2);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.6),
+      0 10px 30px rgba(236, 72, 153, 0.15),
+      0 0 100px rgba(168, 85, 247, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    transform: perspective(1000px) translateZ(0);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .form-container-3d:hover {
+    transform: perspective(1000px) translateZ(10px) scale(1.01);
+    background: rgba(26, 31, 53, 0.95);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.7),
+      0 15px 40px rgba(236, 72, 153, 0.25),
+      0 0 120px rgba(168, 85, 247, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  /* 3D Button Effects */
+  .btn-3d {
+    position: relative;
+    transform: perspective(1000px) translateZ(0);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    box-shadow: 
+      0 4px 12px rgba(236, 72, 153, 0.3),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-3d:hover {
+    transform: perspective(1000px) translateZ(10px) translateY(-2px);
+    box-shadow: 
+      0 8px 24px rgba(236, 72, 153, 0.4),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-3d:active {
+    transform: perspective(1000px) translateZ(2px) translateY(0px);
+    box-shadow: 
+      0 2px 8px rgba(236, 72, 153, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Animations */
+@keyframes subtle-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 1px rgba(236, 72, 153, 0.1),
+      0 8px 32px rgba(236, 72, 153, 0.2),
+      0 4px 16px rgba(168, 85, 247, 0.15);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 2px rgba(236, 72, 153, 0.2),
+      0 12px 40px rgba(236, 72, 153, 0.3),
+      0 6px 20px rgba(168, 85, 247, 0.25);
+  }
+}
+
+@keyframes float-gradient {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(10%, 10%) rotate(120deg);
+  }
+  66% {
+    transform: translate(-10%, 5%) rotate(240deg);
+  }
+}
